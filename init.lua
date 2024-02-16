@@ -19,23 +19,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
 
 	-- colorscheme
-	{
-	    'AlexvZyl/nordic.nvim',
-	    commit = 'be1bab59c56668af7020af11190ec7fcd25d59b4',
-	    lazy = false,
-	    priority = 1000,
-	    config = function()
-		local colors = require('nordic.colors')
-		require 'nordic'.setup {
-			override = {
-				Visual = {
-					bg = colors.gray2
-				}
-			}
-		}
-	        require 'nordic'.load()
-	    end
-	},
+	{ "ellisonleao/gruvbox.nvim", priority = 1000 , config = true, opts = ...},
   	{
   	  -- Set lualine as statusline
   	  'nvim-lualine/lualine.nvim',
@@ -44,7 +28,7 @@ require('lazy').setup({
   	  opts = {
   	    options = {
   	      icons_enabled = false,
-  	      theme = 'nordic',
+  	      theme = 'gruvbox',
   	      component_separators = '|',
   	      section_separators = '',
   	    },
@@ -100,4 +84,33 @@ require('lazy').setup({
 
 })
 
+vim.o.background = "dark" -- or "light" for light mode
+vim.cmd([[colorscheme gruvbox]])
+
+--some settings
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+vim.o.mouse = 'a'
+
+-- Sync clipboard between OS and Neovim.
+--  Remove this option if you want your OS clipboard to remain independent.
+--  See `:help 'clipboard'`
+vim.o.clipboard = 'unnamedplus'
+
+-- Enable break indent
+vim.o.breakindent = true
+
+-- Case-insensitive searching UNLESS \C or capital in search
+vim.o.ignorecase = true
+vim.o.smartcase = true
+
+-- Set completeopt to have a better completion experience
+vim.o.completeopt = 'menuone,noselect'
+
+-- NOTE: You should make sure your terminal supports this
+vim.o.termguicolors = true
+
+-- Set highlight on search
+vim.o.hlsearch = false
+
+-- Make line numbers default
+vim.wo.relativenumber=true
