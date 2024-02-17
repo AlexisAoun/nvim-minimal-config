@@ -96,27 +96,24 @@ require('lazy').setup({
   {
     -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
+    commit="d1bab4cf4b69e49d6058028fd933d8ef5e74e680",
     dependencies = {
       -- Automatically install LSPs to stdpath for neovim
-      { 'williamboman/mason.nvim', config = true },
-      'williamboman/mason-lspconfig.nvim',
-
-      -- Useful status updates for LSP
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
-
-      -- Additional lua configuration, makes nvim stuff amazing!
-      'folke/neodev.nvim',
+      { 'williamboman/mason.nvim', 
+      commit="c43eeb5614a09dc17c03a7fb49de2e05de203924", config = true },
+      {'williamboman/mason-lspconfig.nvim', commit="fe4cce44dec93c69be17dad79b21de867dde118a"},
     },
   },
 
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
+    commit="04e0ca376d6abdbfc8b52180f8ea236cbfddf782",
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
       {
         'L3MON4D3/LuaSnip',
+        commit="f3b3d3446bcbfa62d638b1903ff00a78b2b730a1",
         build = (function()
           -- Build Step is needed for regex support in snippets
           -- This step is not supported in many windows environments
@@ -127,22 +124,24 @@ require('lazy').setup({
           return 'make install_jsregexp'
         end)(),
       },
-      'saadparwaiz1/cmp_luasnip',
+      {'saadparwaiz1/cmp_luasnip', commit="05a9ab28b53f71d1aece421ef32fee2cb857a843"},
 
       -- Adds LSP completion capabilities
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
+
+      {'hrsh7th/cmp-nvim-lsp', commit="5af77f54de1b16c34b23cba810150689a3a90312"},
+      {'hrsh7th/cmp-path', commit="91ff86cd9c29299a64f968ebb45846c485725f23"},
 
       -- Adds a number of user-friendly snippets
-      'rafamadriz/friendly-snippets',
+      {'rafamadriz/friendly-snippets', commit="dbd45e9ba76d535e4cba88afa1b7aa43bb765336"},
     },
   },
 
   {
     -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    commit="17d68ac13c902f55253b7facb47df4c0ae532575",
     dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
+        {'nvim-treesitter/nvim-treesitter-textobjects', commit="7f00d94543f1fd37cab2afa2e9a6cd54e1c6b9ef"}
     },
     build = ':TSUpdate',
   },
