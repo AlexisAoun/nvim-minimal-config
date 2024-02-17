@@ -5,146 +5,159 @@ vim.g.maplocalleader = ' '
 --install package manager if not installed
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system {
-    'git',
-    'clone',
-    '--filter=blob:none',
-    'https://github.com/folke/lazy.nvim.git',
-    '--branch=stable', 
-    lazypath,
+    vim.fn.system {
+        'git',
+        'clone',
+        '--filter=blob:none',
+        'https://github.com/folke/lazy.nvim.git',
+        '--branch=stable',
+        lazypath,
     }
 end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
 
-	-- colorscheme
-	{ "ellisonleao/gruvbox.nvim", priority = 1000 , config = true, opts = ...},
+    -- colorscheme
+    { "ellisonleao/gruvbox.nvim", priority = 1000, config = true, opts = ... },
 
-  	{
-  	  -- Set lualine as statusline
-  	  'nvim-lualine/lualine.nvim',
-  	  -- See `:help lualine.txt`
-	  commit = "7d131a8d3ba5016229e8a1d08bf8782acea98852",
-  	  opts = {
-  	    options = {
-  	      icons_enabled = false,
-  	      theme = 'gruvbox',
-  	      component_separators = '|',
-  	      section_separators = '',
-  	    },
-  	  },
-  	},
-
-	{ 'numToStr/Comment.nvim', 
-	  commit = "0236521ea582747b58869cb72f70ccfa967d2e89",
-	  opts = {},
-  	},
-
-	{ 'folke/which-key.nvim', 
-	  commit="4433e5ec9a507e5097571ed55c02ea9658fb268a",
-	  event = "VeryLazy",
-  	  init = function()
-  	  	vim.o.timeout = true
-  	  	vim.o.timeoutlen = 300
-  	  end,
-	  opts = {}
-	},
-
-	{
-    -- Adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
-    commit="2c2463dbd82eddd7dbab881c3a62cfbfbe3c67ae",
-    opts = {
-      -- See `:help gitsigns.txt`
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-      on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
-
-        -- don't override the built-in and fugitive keymaps
-        local gs = package.loaded.gitsigns
-        vim.keymap.set({ 'n', 'v' }, ']c', function()
-          if vim.wo.diff then
-            return ']c'
-          end
-          vim.schedule(function()
-            gs.next_hunk()
-          end)
-          return '<Ignore>'
-        end, { expr = true, buffer = bufnr, desc = 'Jump to next hunk' })
-        vim.keymap.set({ 'n', 'v' }, '[c', function()
-          if vim.wo.diff then
-            return '[c'
-          end
-          vim.schedule(function()
-            gs.prev_hunk()
-          end)
-          return '<Ignore>'
-        end, { expr = true, buffer = bufnr, desc = 'Jump to previous hunk' })
-      end,
+    {
+        -- Set lualine as statusline
+        'nvim-lualine/lualine.nvim',
+        -- See `:help lualine.txt`
+        commit = "7d131a8d3ba5016229e8a1d08bf8782acea98852",
+        opts = {
+            options = {
+                icons_enabled = false,
+                theme = 'gruvbox',
+                component_separators = '|',
+                section_separators = '',
+            },
+        },
     },
-  },
 
-  -- NOTE: This is where your plugins related to LSP can be installed.
-  --  The configuration is done below. Search for lspconfig to find it below.
-  {
-    -- LSP Configuration & Plugins
-    'neovim/nvim-lspconfig',
-    commit="d1bab4cf4b69e49d6058028fd933d8ef5e74e680",
-    dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
-      { 'williamboman/mason.nvim', 
-      commit="c43eeb5614a09dc17c03a7fb49de2e05de203924", config = true },
-      {'williamboman/mason-lspconfig.nvim', commit="fe4cce44dec93c69be17dad79b21de867dde118a"},
+    {
+        'numToStr/Comment.nvim',
+        commit = "0236521ea582747b58869cb72f70ccfa967d2e89",
+        opts = {},
     },
-  },
 
-  {
-    -- Autocompletion
-    'hrsh7th/nvim-cmp',
-    commit="04e0ca376d6abdbfc8b52180f8ea236cbfddf782",
-    dependencies = {
-      -- Snippet Engine & its associated nvim-cmp source
-      {
-        'L3MON4D3/LuaSnip',
-        commit="f3b3d3446bcbfa62d638b1903ff00a78b2b730a1",
-        build = (function()
-          -- Build Step is needed for regex support in snippets
-          -- This step is not supported in many windows environments
-          -- Remove the below condition to re-enable on windows
-          if vim.fn.has 'win32' == 1 then
-            return
-          end
-          return 'make install_jsregexp'
-        end)(),
-      },
-      {'saadparwaiz1/cmp_luasnip', commit="05a9ab28b53f71d1aece421ef32fee2cb857a843"},
-
-      -- Adds LSP completion capabilities
-
-      {'hrsh7th/cmp-nvim-lsp', commit="5af77f54de1b16c34b23cba810150689a3a90312"},
-      {'hrsh7th/cmp-path', commit="91ff86cd9c29299a64f968ebb45846c485725f23"},
-
-      -- Adds a number of user-friendly snippets
-      {'rafamadriz/friendly-snippets', commit="dbd45e9ba76d535e4cba88afa1b7aa43bb765336"},
+    {
+        'folke/which-key.nvim',
+        commit = "4433e5ec9a507e5097571ed55c02ea9658fb268a",
+        event = "VeryLazy",
+        init = function()
+            vim.o.timeout = true
+            vim.o.timeoutlen = 300
+        end,
+        opts = {}
     },
-  },
 
-  {
-    -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    commit="17d68ac13c902f55253b7facb47df4c0ae532575",
-    dependencies = {
-        {'nvim-treesitter/nvim-treesitter-textobjects', commit="7f00d94543f1fd37cab2afa2e9a6cd54e1c6b9ef"}
+    {
+        -- Adds git related signs to the gutter, as well as utilities for managing changes
+        'lewis6991/gitsigns.nvim',
+        commit = "2c2463dbd82eddd7dbab881c3a62cfbfbe3c67ae",
+        opts = {
+            -- See `:help gitsigns.txt`
+            signs = {
+                add = { text = '+' },
+                change = { text = '~' },
+                delete = { text = '_' },
+                topdelete = { text = '‾' },
+                changedelete = { text = '~' },
+            },
+            on_attach = function(bufnr)
+                vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk,
+                    { buffer = bufnr, desc = 'Preview git hunk' })
+
+                -- don't override the built-in and fugitive keymaps
+                local gs = package.loaded.gitsigns
+                vim.keymap.set({ 'n', 'v' }, ']c', function()
+                    if vim.wo.diff then
+                        return ']c'
+                    end
+                    vim.schedule(function()
+                        gs.next_hunk()
+                    end)
+                    return '<Ignore>'
+                end, { expr = true, buffer = bufnr, desc = 'Jump to next hunk' })
+                vim.keymap.set({ 'n', 'v' }, '[c', function()
+                    if vim.wo.diff then
+                        return '[c'
+                    end
+                    vim.schedule(function()
+                        gs.prev_hunk()
+                    end)
+                    return '<Ignore>'
+                end, { expr = true, buffer = bufnr, desc = 'Jump to previous hunk' })
+            end,
+        },
     },
-    build = ':TSUpdate',
-  },
+
+    -- NOTE: This is where your plugins related to LSP can be installed.
+    --  The configuration is done below. Search for lspconfig to find it below.
+    {
+        -- LSP Configuration & Plugins
+        'neovim/nvim-lspconfig',
+        commit = "d1bab4cf4b69e49d6058028fd933d8ef5e74e680",
+        dependencies = {
+            -- Automatically install LSPs to stdpath for neovim
+            {
+                'williamboman/mason.nvim',
+                commit = "c43eeb5614a09dc17c03a7fb49de2e05de203924",
+                config = true
+            },
+            { 'williamboman/mason-lspconfig.nvim', commit = "fe4cce44dec93c69be17dad79b21de867dde118a" },
+        },
+    },
+
+    {
+        -- Autocompletion
+        'hrsh7th/nvim-cmp',
+        commit = "04e0ca376d6abdbfc8b52180f8ea236cbfddf782",
+        dependencies = {
+            -- Snippet Engine & its associated nvim-cmp source
+            {
+                'L3MON4D3/LuaSnip',
+                commit = "f3b3d3446bcbfa62d638b1903ff00a78b2b730a1",
+                build = (function()
+                    -- Build Step is needed for regex support in snippets
+                    -- This step is not supported in many windows environments
+                    -- Remove the below condition to re-enable on windows
+                    if vim.fn.has 'win32' == 1 then
+                        return
+                    end
+                    return 'make install_jsregexp'
+                end)(),
+            },
+            { 'saadparwaiz1/cmp_luasnip',     commit = "05a9ab28b53f71d1aece421ef32fee2cb857a843" },
+
+            -- Adds LSP completion capabilities
+
+            { 'hrsh7th/cmp-nvim-lsp',         commit = "5af77f54de1b16c34b23cba810150689a3a90312" },
+            { 'hrsh7th/cmp-path',             commit = "91ff86cd9c29299a64f968ebb45846c485725f23" },
+
+            -- Adds a number of user-friendly snippets
+            { 'rafamadriz/friendly-snippets', commit = "dbd45e9ba76d535e4cba88afa1b7aa43bb765336" },
+        },
+    },
+
+    {
+        -- Highlight, edit, and navigate code
+        'nvim-treesitter/nvim-treesitter',
+        commit = "17d68ac13c902f55253b7facb47df4c0ae532575",
+        dependencies = {
+            { 'nvim-treesitter/nvim-treesitter-textobjects', commit = "7f00d94543f1fd37cab2afa2e9a6cd54e1c6b9ef" }
+        },
+        build = ':TSUpdate',
+    },
+
+    {
+    'windwp/nvim-autopairs',
+    commit="2e8a10c5fc0dcaf8296a5f1a7077efcd37065cc8",
+    event = "InsertEnter",
+    opts = {} -- this is equalent to setup({}) function
+    }
 })
 
 vim.o.background = "dark" -- or "light" for light mode
@@ -176,9 +189,245 @@ vim.o.termguicolors = true
 vim.o.hlsearch = false
 
 -- Make line numbers default
-vim.wo.relativenumber=true
+vim.wo.relativenumber = true
 
-vim.o.tabstop = 4 -- A TAB character looks like 4 spaces
+vim.o.tabstop = 4      -- A TAB character looks like 4 spaces
 vim.o.expandtab = true -- Pressing the TAB key will insert spaces instead of a TAB character
-vim.o.softtabstop = 4 -- Number of spaces inserted instead of a TAB character
-vim.o.shiftwidth = 4 -- Number of spaces inserted when indenting
+vim.o.softtabstop = 4  -- Number of spaces inserted instead of a TAB character
+vim.o.shiftwidth = 4   -- Number of spaces inserted when indenting
+
+
+-- [[ Configure Treesitter ]]
+-- See `:help nvim-treesitter`
+-- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
+vim.defer_fn(function()
+    require('nvim-treesitter.configs').setup {
+        -- Add languages to be installed here that you want installed for treesitter
+        ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+
+        -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
+        auto_install = false,
+        -- Install languages synchronously (only applied to `ensure_installed`)
+        sync_install = false,
+        -- List of parsers to ignore installing
+        ignore_install = {},
+        -- You can specify additional Treesitter modules here: -- For example: -- playground = {--enable = true,-- },
+        modules = {},
+        highlight = { enable = true },
+        indent = { enable = true },
+        incremental_selection = {
+            enable = true,
+            keymaps = {
+                init_selection = '<c-space>',
+                node_incremental = '<c-space>',
+                scope_incremental = '<c-s>',
+                node_decremental = '<M-space>',
+            },
+        },
+        textobjects = {
+            select = {
+                enable = true,
+                lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+                keymaps = {
+                    -- You can use the capture groups defined in textobjects.scm
+                    ['aa'] = '@parameter.outer',
+                    ['ia'] = '@parameter.inner',
+                    ['af'] = '@function.outer',
+                    ['if'] = '@function.inner',
+                    ['ac'] = '@class.outer',
+                    ['ic'] = '@class.inner',
+                },
+            },
+            move = {
+                enable = true,
+                set_jumps = true, -- whether to set jumps in the jumplist
+                goto_next_start = {
+                    [']m'] = '@function.outer',
+                    [']]'] = '@class.outer',
+                },
+                goto_next_end = {
+                    [']M'] = '@function.outer',
+                    [']['] = '@class.outer',
+                },
+                goto_previous_start = {
+                    ['[m'] = '@function.outer',
+                    ['[['] = '@class.outer',
+                },
+                goto_previous_end = {
+                    ['[M'] = '@function.outer',
+                    ['[]'] = '@class.outer',
+                },
+            },
+            swap = {
+                enable = true,
+                swap_next = {
+                    ['<leader>a'] = '@parameter.inner',
+                },
+                swap_previous = {
+                    ['<leader>A'] = '@parameter.inner',
+                },
+            },
+        },
+    }
+end, 0)
+
+-- [[ Configure LSP ]]
+--  This function gets run when an LSP connects to a particular buffer.
+local on_attach = function(_, bufnr)
+    -- NOTE: Remember that lua is a real programming language, and as such it is possible
+    -- to define small helper and utility functions so you don't have to repeat yourself
+    -- many times.
+    --
+    -- In this case, we create a function that lets us more easily define mappings specific
+    -- for LSP related items. It sets the mode, buffer and description for us each time.
+    local nmap = function(keys, func, desc)
+        if desc then
+            desc = 'LSP: ' .. desc
+        end
+
+        vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+    end
+
+    nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+    nmap('<leader>ca', function()
+        vim.lsp.buf.code_action { context = { only = { 'quickfix', 'refactor', 'source' } } }
+    end, '[C]ode [A]ction')
+
+    nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+    nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+    nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+    nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
+    nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+    nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+
+    -- See `:help K` for why this keymap
+    nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+    nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+
+    -- Lesser used LSP functionality
+    nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+    nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
+    nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
+    nmap('<leader>wl', function()
+        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, '[W]orkspace [L]ist Folders')
+
+    -- Create a command `:Format` local to the LSP buffer
+    vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+        vim.lsp.buf.format()
+    end, { desc = 'Format current buffer with LSP' })
+end
+
+-- mason-lspconfig requires that these setup functions are called in this order
+-- before setting up the servers.
+require('mason').setup()
+require('mason-lspconfig').setup()
+
+-- Enable the following language servers
+--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
+--
+--  Add any additional override configuration in the following tables. They will be passed to
+--  the `settings` field of the server config. You must look up that documentation yourself.
+--
+--  If you want to override the default filetypes that your language server will attach to you can
+--  define the property 'filetypes' to the map in question.
+local servers = {
+    -- clangd = {},
+    -- gopls = {},
+    -- pyright = {},
+    -- rust_analyzer = {},
+    -- tsserver = {},
+    -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+
+    lua_ls = {
+        Lua = {
+            workspace = { checkThirdParty = false },
+            telemetry = { enable = false },
+            -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+            -- diagnostics = { disable = { 'missing-fields' } },
+        },
+    },
+}
+
+-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+-- Ensure the servers above are installed
+local mason_lspconfig = require 'mason-lspconfig'
+
+mason_lspconfig.setup {
+    ensure_installed = vim.tbl_keys(servers),
+}
+
+mason_lspconfig.setup_handlers {
+    function(server_name)
+        require('lspconfig')[server_name].setup {
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = servers[server_name],
+            filetypes = (servers[server_name] or {}).filetypes,
+        }
+    end,
+}
+
+-- [[ Configure nvim-cmp ]]
+-- See `:help cmp`
+local cmp = require 'cmp'
+local luasnip = require 'luasnip'
+require('luasnip.loaders.from_vscode').lazy_load()
+luasnip.config.setup {}
+
+cmp.setup {
+    snippet = {
+        expand = function(args)
+            luasnip.lsp_expand(args.body)
+        end,
+    },
+    completion = {
+        completeopt = 'menu,menuone,noinsert',
+    },
+    mapping = cmp.mapping.preset.insert {
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete {},
+        ['<CR>'] = cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
+        },
+        ['<Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif luasnip.expand_or_locally_jumpable() then
+                luasnip.expand_or_jump()
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif luasnip.locally_jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
+    },
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'luasnip' },
+        { name = 'path' },
+    },
+}
+
+vim.api.nvim_create_user_command("Format", function()
+    vim.lsp.buf.format()
+end
+, {})
+
+require('Comment').setup({
+    opleader = {line = 'c'}
+})
