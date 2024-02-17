@@ -153,10 +153,10 @@ require('lazy').setup({
     },
 
     {
-    'windwp/nvim-autopairs',
-    commit="2e8a10c5fc0dcaf8296a5f1a7077efcd37065cc8",
-    event = "InsertEnter",
-    opts = {} -- this is equalent to setup({}) function
+        'windwp/nvim-autopairs',
+        commit = "2e8a10c5fc0dcaf8296a5f1a7077efcd37065cc8",
+        event = "InsertEnter",
+        opts = {} -- this is equalent to setup({}) function
     }
 })
 
@@ -429,5 +429,5 @@ end
 , {})
 
 require('Comment').setup({
-    opleader = {line = 'c'}
+    opleader = { line = 'c' }
 })
