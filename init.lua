@@ -382,6 +382,7 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
+  nmap('<leader>e', ':20 Lexplore<CR>', 'File [E]xplorer')
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', function()
     vim.lsp.buf.code_action { context = { only = { 'quickfix', 'refactor', 'source' } } }
@@ -429,7 +430,7 @@ local servers = {
   -- clangd = {},
   -- gopls = {},
   -- pyright = {},
-  -- rust_analyzer = {},
+  rust_analyzer = {},
   -- tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
 
@@ -516,11 +517,6 @@ cmp.setup {
     { name = 'path' },
   },
 }
-
-vim.api.nvim_create_user_command("Format", function()
-  vim.lsp.buf.format()
-end
-, {})
 
 require('Comment').setup({
   opleader = { line = 'c' }
