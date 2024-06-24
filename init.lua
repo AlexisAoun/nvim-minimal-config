@@ -175,6 +175,8 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
     },
   },
+
+  {'akinsho/bufferline.nvim', tag="v4.6.1" , dependencies = 'nvim-tree/nvim-web-devicons'}
 })
 
 vim.o.background = "dark" -- or "light" for light mode
@@ -526,5 +528,12 @@ cmp.setup {
 require('Comment').setup({
   opleader = { line = '<leader>/' }
 })
+
+require("bufferline").setup{}
+
+vim.keymap.set('n', '<S-l>', ":bnext<CR>")
+vim.keymap.set('n', '<S-h>', ":bprevious<CR>")
+vim.keymap.set('n', '<S-q>', ":bdelete<CR>")
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
