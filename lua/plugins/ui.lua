@@ -60,7 +60,5 @@ return {
   },
 
 
-  {'akinsho/bufferline.nvim', 
-  tag="v4.9.1", 
-  opts = {}}
+  {'akinsho/bufferline.nvim', tag="v4.9.1", opts = {}}
 }
